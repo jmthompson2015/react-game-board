@@ -4,12 +4,12 @@ Provides a game board React component with square or hexagonal cells.
 
 ## Examples
 
-- [Checkers](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/checkers/CheckerBoardUI.html)
-- [Chess](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/chess/ChessBoardUI.html)
-- [Reversi](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/reversi/ReversiBoardUI.html)
-- [Terra Nova](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/terra-nova/TerraNovaBoardUI.html)
-- [Tic-Tac-Toe](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/tic-tac-toe/TTTBoardUI.html)
-- [War Chest](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/war-chest/WarChestBoardUI.html)
+- [Checkers](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/checkers/CheckerBoardUI.viewtest.html)
+- [Chess](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/chess/ChessBoardUI.viewtest.html)
+- [Reversi](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/reversi/ReversiBoardUI.viewtest.html)
+- [Terra Nova](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/terra-nova/TerraNovaBoardUI.viewtest.html)
+- [Tic-Tac-Toe](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/tic-tac-toe/TTTBoardUI.viewtest.html)
+- [War Chest](https://cdn.jsdelivr.net/gh/jmthompson2015/react-game-board/example/war-chest/WarChestBoardUI.viewtest.html)
 
 ## License
 
