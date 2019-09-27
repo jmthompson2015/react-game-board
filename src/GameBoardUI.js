@@ -4,11 +4,13 @@
 import BoardCalculator from "./BoardCalculator.js";
 import CoordinateCalculator from "./CoordinateCalculator.js";
 
-const loadImage = src =>
+const loadImage = (src, isVerbose) =>
   new Promise((resolve, reject) => {
     const img = new Image();
     img.addEventListener("load", () => {
-      console.log(`Loaded image: ${src} ${img.width}x${img.height}`);
+      if (isVerbose) {
+        console.log(`Loaded image: ${src} ${img.width}x${img.height}`);
+      }
       resolve(img);
     });
     img.addEventListener("error", err => reject(err));
@@ -212,10 +214,10 @@ class GameBoardUI extends React.PureComponent {
   }
 
   loadImages() {
-    const { images } = this.props;
+    const { images, isVerbose } = this.props;
 
     for (let i = 0; i < images.length; i += 1) {
-      loadImage(images[i]).then(img => {
+      loadImage(images[i], isVerbose).then(img => {
         const { imageMap: oldImageMap } = this.state;
         this.setState({ imageMap: R.assoc(images[i], img, oldImageMap) });
       });
@@ -266,6 +268,7 @@ GameBoardUI.propTypes = {
   height: PropTypes.number,
   images: PropTypes.arrayOf(PropTypes.string),
   isCellUsedFunction: PropTypes.func,
+  isVerbose: PropTypes.bool,
   myKey: PropTypes.string,
   onClick: PropTypes.func,
   width: PropTypes.number
@@ -280,6 +283,7 @@ GameBoardUI.defaultProps = {
   height: 480,
   images: [],
   isCellUsedFunction: () => true,
+  isVerbose: false,
   myKey: "hexBoardCanvas",
   onClick: () => {},
   width: 640
