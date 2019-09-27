@@ -657,7 +657,7 @@
     gridColor: PropTypes.string,
     gridLineWidth: PropTypes.number,
     height: PropTypes.number,
-    images: PropTypes.arrayOf(),
+    images: PropTypes.arrayOf(PropTypes.string),
     isCellUsedFunction: PropTypes.func,
     myKey: PropTypes.string,
     onClick: PropTypes.func,
