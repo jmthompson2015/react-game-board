@@ -1,3 +1,6 @@
+/* eslint no-underscore-dangle:
+  ["error", { "allow": ["_fileCount", "_rankCount", "_levelCount"] }] */
+
 // AN = Algebraic Notation
 // file in [1, fileCount]
 // rank in [1, rankCount]
@@ -64,7 +67,7 @@ class CoordinateCalculator {
     const file = this.anToFile(an);
     const rank = this.anToRank(an);
     const level = this.anToLevel(an);
-    console.log(`file=${file} rank=${rank} level=${level}`);
+    // console.log(`file=${file} rank=${rank} level=${level}`);
 
     if (isNil(file) || isNil(rank)) {
       return null;
@@ -97,7 +100,7 @@ class CoordinateCalculator {
       return null;
     }
 
-    const rank = parseInt(an.trim().substring(1));
+    const rank = parseInt(an.trim().substring(1), 10);
 
     return isRankOutOfBounds(this.rankCount, rank) ? null : rank;
   }

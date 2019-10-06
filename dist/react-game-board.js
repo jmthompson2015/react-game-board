@@ -252,6 +252,9 @@
     return wn % 2 !== 0;
   };
 
+  /* eslint no-underscore-dangle:
+    ["error", { "allow": ["_fileCount", "_rankCount", "_levelCount"] }] */
+
   // AN = Algebraic Notation
   // file in [1, fileCount]
   // rank in [1, rankCount]
@@ -318,7 +321,7 @@
       const file = this.anToFile(an);
       const rank = this.anToRank(an);
       const level = this.anToLevel(an);
-      console.log(`file=${file} rank=${rank} level=${level}`);
+      // console.log(`file=${file} rank=${rank} level=${level}`);
 
       if (isNil(file) || isNil(rank)) {
         return null;
@@ -351,7 +354,7 @@
         return null;
       }
 
-      const rank = parseInt(an.trim().substring(1));
+      const rank = parseInt(an.trim().substring(1), 10);
 
       return isRankOutOfBounds(this.rankCount, rank) ? null : rank;
     }
@@ -394,6 +397,179 @@
       return `${fileLetter}${rank}${levelLetter}`;
     }
   }
+
+  // see https://www.redblobgames.com/grids/hexagons/
+  // Cube coordinates constraint: x + y + z = 0
+
+  const HexBoardUtilities = {};
+
+  // const DEG_TO_RAD = Math.PI / 180.0;
+  // const SQRT3 = Math.sqrt(3.0);
+
+  HexBoardUtilities.createCube = ({ x = 0, y = 0, z = 0 } = {}) => Immutable({ x, y, z });
+
+  HexBoardUtilities.createDimension = ({ w = 0, h = 0 } = {}) => Immutable({ w, h });
+
+  HexBoardUtilities.createHex = ({ q = 0, r = 0 } = {}) => Immutable({ q, r });
+
+  HexBoardUtilities.createPoint = ({ x = 0, y = 0 } = {}) => Immutable({ x, y });
+
+  // const axialDirections = [
+  //   HexBoardUtilities.createHex({ q: +1, r: 0 }),
+  //   HexBoardUtilities.createHex({ q: +1, r: -1 }),
+  //   HexBoardUtilities.createHex({ q: 0, r: -1 }),
+  //   HexBoardUtilities.createHex({ q: -1, r: 0 }),
+  //   HexBoardUtilities.createHex({ q: -1, r: +1 }),
+  //   HexBoardUtilities.createHex({ q: 0, r: +1 })
+  // ];
+
+  // const cubeDiagonals = [
+  //   HexBoardUtilities.createCube({ x: +2, y: -1, z: -1 }),
+  //   HexBoardUtilities.createCube({ x: +1, y: +1, z: -2 }),
+  //   HexBoardUtilities.createCube({ x: -1, y: +2, z: -1 }),
+  //   HexBoardUtilities.createCube({ x: -2, y: +1, z: +1 }),
+  //   HexBoardUtilities.createCube({ x: -1, y: -1, z: +2 }),
+  //   HexBoardUtilities.createCube({ x: +1, y: -2, z: +1 })
+  // ];
+
+  const cubeDirections = [
+    HexBoardUtilities.createCube({ x: +1, y: -1, z: 0 }),
+    HexBoardUtilities.createCube({ x: +1, y: 0, z: -1 }),
+    HexBoardUtilities.createCube({ x: 0, y: +1, z: -1 }),
+    HexBoardUtilities.createCube({ x: -1, y: +1, z: 0 }),
+    HexBoardUtilities.createCube({ x: -1, y: 0, z: +1 }),
+    HexBoardUtilities.createCube({ x: 0, y: -1, z: +1 })
+  ];
+
+  const cubeAdd = (a, b) =>
+    HexBoardUtilities.createCube({ x: a.x + b.x, y: a.y + b.y, z: a.z + b.z });
+
+  // Linear interpolation for floats.
+  // const interpolate = (a, b, t) => a + (b - a) * t;
+
+  // Linear interpolation for hexes.
+  // const cubeInterpolate = (a, b, t) =>
+  //   HexBoardUtilities.createCube({
+  //     x: interpolate(a.x, b.x, t),
+  //     y: interpolate(a.y, b.y, t),
+  //     z: interpolate(a.z, b.z, t)
+  //   });
+
+  // const cubeRound = cube => {
+  //   let rx = Math.round(cube.x);
+  //   let ry = Math.round(cube.y);
+  //   let rz = Math.round(cube.z);
+  //
+  //   const xDiff = Math.abs(rx - cube.x);
+  //   const yDiff = Math.abs(ry - cube.y);
+  //   const zDiff = Math.abs(rz - cube.z);
+  //
+  //   if (xDiff > yDiff && xDiff > zDiff) {
+  //     rx = -ry - rz;
+  //   } else if (yDiff > zDiff) {
+  //     ry = -rx - rz;
+  //   } else {
+  //     rz = -rx - ry;
+  //   }
+  //
+  //   return HexBoardUtilities.createCube({ x: rx, y: ry, z: rz });
+  // };
+
+  // const hexRound = hex =>
+  //   HexBoardUtilities.cubeToAxial(cubeRound(HexBoardUtilities.axialToCube(hex)));
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////////
+  HexBoardUtilities.axialToCube = hex => {
+    const x = hex.q;
+    const z = hex.r;
+    const y = -x - z;
+    return HexBoardUtilities.createCube({ x, y, z });
+  };
+
+  // HexBoardUtilities.cubeDiagonalNeighbor = (cube, direction) =>
+  //   cubeAdd(cube, cubeDiagonals[direction]);
+
+  HexBoardUtilities.cubeDirection = direction => cubeDirections[direction];
+
+  // HexBoardUtilities.cubeDistance = (a, b) =>
+  //   (Math.abs(a.x - b.x) + Math.abs(a.y - b.y) + Math.abs(a.z - b.z)) / 2;
+  //
+  // HexBoardUtilities.cubeLinedraw = (a, b) => {
+  //   const N = HexBoardUtilities.cubeDistance(a, b);
+  //   const results = [];
+  //   for (let i = 0; i <= N; i += 1) {
+  //     results.push(HexBoardUtilities.cubeRound(cubeInterpolate(a, b, (1.0 / N) * i)));
+  //   }
+  //   return results;
+  // };
+
+  HexBoardUtilities.cubeNeighbor = (cube, direction) =>
+    cubeAdd(cube, HexBoardUtilities.cubeDirection(direction));
+
+  HexBoardUtilities.cubeNeighbors = cube => {
+    const reduceFunction = (accum, cubeDirection) => {
+      return R.append(cubeAdd(cube, cubeDirection), accum);
+    };
+
+    return R.reduce(reduceFunction, [], cubeDirections);
+  };
+
+  HexBoardUtilities.cubeToAxial = cube => {
+    const q = cube.x;
+    const r = cube.z;
+    return HexBoardUtilities.createHex({ q, r });
+  };
+
+  // HexBoardUtilities.flatHexCorner = (center, size, i) => {
+  //   const angleDeg = 60 * i;
+  //   const angleRad = DEG_TO_RAD * angleDeg;
+  //   return HexBoardUtilities.createPoint({
+  //     x: center.x + size * Math.cos(angleRad),
+  //     y: center.y + size * Math.sin(angleRad)
+  //   });
+  // };
+  //
+  // HexBoardUtilities.flatHexDimensions = size =>
+  //   HexBoardUtilities.createDimension({ w: 2.0 * size, h: SQRT3 * size });
+  //
+  // HexBoardUtilities.flatHexSpacing = size => {
+  //   const dim = HexBoardUtilities.flatHexDimensions(size);
+  //   return HexBoardUtilities.createDimension({ w: 0.75 * dim.w, h: dim.h });
+  // };
+  //
+  // HexBoardUtilities.flatHexToPixel = (hex, size, offset = { x: 0, y: 0 }) => {
+  //   const x = size * ((3 / 2) * hex.q);
+  //   const y = size * ((SQRT3 / 2) * hex.q + SQRT3 * hex.r);
+  //   return HexBoardUtilities.createPoint({ x: x + offset.x, y: y + offset.y });
+  // };
+  //
+  // HexBoardUtilities.hexDiagonalNeighbor = (hex, direction) => {
+  //   const cube = HexBoardUtilities.axialToCube(hex);
+  //   const neighbor = HexBoardUtilities.cubeDiagonalNeighbor(cube, direction);
+  //   return HexBoardUtilities.cubeToAxial(neighbor);
+  // };
+  //
+  // HexBoardUtilities.hexDirection = direction => axialDirections[direction];
+  //
+  // HexBoardUtilities.hexDistance = (a, b) => {
+  //   const ac = HexBoardUtilities.axialToCube(a);
+  //   const bc = HexBoardUtilities.axialToCube(b);
+  //   return HexBoardUtilities.cubeDistance(ac, bc);
+  // };
+
+  HexBoardUtilities.hexNeighbor = (hex, direction) => {
+    const cube = HexBoardUtilities.axialToCube(hex);
+    const neighbor = HexBoardUtilities.cubeNeighbor(cube, direction);
+    return HexBoardUtilities.cubeToAxial(neighbor);
+  };
+
+  HexBoardUtilities.hexNeighbors = hex => {
+    const cube = HexBoardUtilities.axialToCube(hex);
+    const cubeNeighbors = HexBoardUtilities.cubeNeighbors(cube);
+    const mapFunction = c => HexBoardUtilities.cubeToAxial(c);
+
+    return R.map(mapFunction, cubeNeighbors);
+  };
 
   /* eslint no-console: ["error", { allow: ["log"] }] */
 
@@ -684,6 +860,7 @@
 
   GameBoardUI.BoardCalculator = BoardCalculator;
   GameBoardUI.CoordinateCalculator = CoordinateCalculator;
+  GameBoardUI.HexBoardUtilities = HexBoardUtilities;
 
   return GameBoardUI;
 

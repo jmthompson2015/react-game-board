@@ -3,6 +3,7 @@
 // see https://www.redblobgames.com/grids/hexagons/
 import BoardCalculator from "./BoardCalculator.js";
 import CoordinateCalculator from "./CoordinateCalculator.js";
+import HexBoardUtilities from "./HexBoardUtilities.js";
 
 const loadImage = (src, isVerbose) =>
   new Promise((resolve, reject) => {
@@ -291,5 +292,6 @@ GameBoardUI.defaultProps = {
 
 GameBoardUI.BoardCalculator = BoardCalculator;
 GameBoardUI.CoordinateCalculator = CoordinateCalculator;
+GameBoardUI.HexBoardUtilities = HexBoardUtilities;
 
 export default GameBoardUI;
