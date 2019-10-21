@@ -5,6 +5,82 @@ import BoardCalculator from "./BoardCalculator.js";
 import CoordinateCalculator from "./CoordinateCalculator.js";
 import HexBoardUtilities from "./HexBoardUtilities.js";
 
+const computeCenter = boardCalculator => (size, offset, f, r) => {
+  const dim = boardCalculator.cellDimensions(size);
+  const myOffset = Immutable({
+    x: dim.w / 2.0 + offset.x,
+    y: dim.h / 2.0 + offset.y
+  });
+
+  return boardCalculator.cellToPixel(f, r, size, myOffset);
+};
+
+const drawCells = (
+  boardCalculator,
+  coordinateCalculator,
+  gridColor,
+  gridLineWidth,
+  cellColorFunction,
+  cellImageFunction,
+  isCellUsedFunction
+) => (imageMap, offset, size) => context => {
+  for (let r = 1; r <= coordinateCalculator.rankCount; r += 1) {
+    for (let f = 1; f <= coordinateCalculator.fileCount; f += 1) {
+      const an = coordinateCalculator.fileRankToAN(f, r);
+
+      if (isCellUsedFunction(an)) {
+        const center = computeCenter(boardCalculator)(size, offset, f - 1, r - 1);
+        const corners = boardCalculator.computeCorners(center, size);
+
+        // Layer 0: Cell background color
+        const background = cellColorFunction(an);
+
+        if (background) {
+          BoardCalculator.fillCell(context, corners, background);
+        }
+
+        // Layer 1: Cell background image
+        const image = cellImageFunction(an);
+
+        if (image) {
+          const img = imageMap[image];
+
+          if (img) {
+            BoardCalculator.drawRectangularImage(context, corners, img);
+          }
+        }
+
+        // Layer 2: Cell outline
+        BoardCalculator.drawCell(context, corners, gridColor, gridLineWidth);
+      }
+    }
+  }
+};
+
+const drawTokens = (
+  boardCalculator,
+  coordinateCalculator,
+  drawTokenFunction,
+  isCellUsedFunction,
+  anToTokens
+) => (imageMap, offset, size) => context => {
+  context.save();
+
+  for (let r = 1; r <= coordinateCalculator.rankCount; r += 1) {
+    for (let f = 1; f <= coordinateCalculator.fileCount; f += 1) {
+      const an = coordinateCalculator.fileRankToAN(f, r);
+
+      if (isCellUsedFunction(an)) {
+        const token = anToTokens[an];
+        const center = computeCenter(boardCalculator)(size, offset, f - 1, r - 1);
+        drawTokenFunction(context, center, size, an, token, imageMap);
+      }
+    }
+  }
+
+  context.restore();
+};
+
 const loadImage = (src, isVerbose) =>
   new Promise((resolve, reject) => {
     const img = new Image();
@@ -42,18 +118,6 @@ class GameBoardUI extends React.PureComponent {
     this.paint();
   }
 
-  computeCenter(size, offset, f, r) {
-    const { boardCalculator } = this.props;
-
-    const dim = boardCalculator.cellDimensions(size);
-    const myOffset = Immutable({
-      x: dim.w / 2.0 + offset.x,
-      y: dim.h / 2.0 + offset.y
-    });
-
-    return boardCalculator.cellToPixel(f, r, size, myOffset);
-  }
-
   computeSize() {
     const {
       boardCalculator,
@@ -77,7 +141,7 @@ class GameBoardUI extends React.PureComponent {
         const an = coordinateCalculator.fileRankToAN(f, r);
 
         if (isCellUsedFunction(an)) {
-          const center = this.computeCenter(size0, offset0, f - 1, r - 1);
+          const center = computeCenter(boardCalculator)(size0, offset0, f - 1, r - 1);
 
           for (let i = 0; i < cornerCount; i += 1) {
             const corner = boardCalculator.cellCorner(center, size0, i);
@@ -108,83 +172,8 @@ class GameBoardUI extends React.PureComponent {
     this.setState({ size, offset });
   }
 
-  drawCells(context) {
-    const {
-      boardCalculator,
-      coordinateCalculator,
-      gridColor,
-      gridLineWidth,
-      cellColorFunction,
-      cellImageFunction,
-      isCellUsedFunction
-    } = this.props;
-    const { imageMap, offset, size } = this.state;
-
-    for (let r = 1; r <= coordinateCalculator.rankCount; r += 1) {
-      for (let f = 1; f <= coordinateCalculator.fileCount; f += 1) {
-        const an = coordinateCalculator.fileRankToAN(f, r);
-
-        if (isCellUsedFunction(an)) {
-          const center = this.computeCenter(size, offset, f - 1, r - 1);
-          const corners = boardCalculator.computeCorners(center, size);
-
-          // Layer 0: Cell background color
-          const background = cellColorFunction(an);
-
-          if (background) {
-            BoardCalculator.fillCell(context, corners, background);
-          }
-
-          // Layer 1: Cell background image
-          const image = cellImageFunction(an);
-
-          if (image) {
-            const img = imageMap[image];
-
-            if (img) {
-              BoardCalculator.drawRectangularImage(context, corners, img);
-            }
-          }
-
-          // Layer 2: Cell outline
-          BoardCalculator.drawCell(context, corners, gridColor, gridLineWidth);
-        }
-      }
-    }
-  }
-
-  drawTokens(context) {
-    const {
-      coordinateCalculator,
-      drawTokenFunction,
-      isCellUsedFunction,
-      anToTokens
-    } = this.props;
-    const { imageMap, offset, size } = this.state;
-    context.save();
-
-    for (let r = 1; r <= coordinateCalculator.rankCount; r += 1) {
-      for (let f = 1; f <= coordinateCalculator.fileCount; f += 1) {
-        const an = coordinateCalculator.fileRankToAN(f, r);
-
-        if (isCellUsedFunction(an)) {
-          const token = anToTokens[an];
-          const center = this.computeCenter(size, offset, f - 1, r - 1);
-          drawTokenFunction(context, center, size, an, token, imageMap);
-        }
-      }
-    }
-
-    context.restore();
-  }
-
   handleOnClickFunction(event) {
-    const {
-      boardCalculator,
-      coordinateCalculator,
-      isCellUsedFunction,
-      onClick
-    } = this.props;
+    const { boardCalculator, coordinateCalculator, isCellUsedFunction, onClick } = this.props;
     const { offset, size } = this.state;
 
     const canvas = event.currentTarget;
@@ -201,7 +190,7 @@ class GameBoardUI extends React.PureComponent {
         const an = coordinateCalculator.fileRankToAN(f, r);
 
         if (isCellUsedFunction(an)) {
-          const center = this.computeCenter(size, offset, f - 1, r - 1);
+          const center = computeCenter(boardCalculator)(size, offset, f - 1, r - 1);
           const corners = boardCalculator.computeCorners(center, size);
 
           if (BoardCalculator.isPointInPolygon(point.x, point.y, corners)) {
@@ -226,7 +215,21 @@ class GameBoardUI extends React.PureComponent {
   }
 
   paint() {
-    const { height, myKey, width } = this.props;
+    const {
+      anToTokens,
+      boardCalculator,
+      cellColorFunction,
+      cellImageFunction,
+      coordinateCalculator,
+      drawTokenFunction,
+      gridColor,
+      gridLineWidth,
+      height,
+      isCellUsedFunction,
+      myKey,
+      width
+    } = this.props;
+    const { imageMap, offset, size } = this.state;
 
     const canvas = document.getElementById(myKey);
     const context = canvas.getContext("2d");
@@ -235,10 +238,23 @@ class GameBoardUI extends React.PureComponent {
     context.clearRect(0, 0, width, height);
 
     // Layer 1: Cells
-    this.drawCells(context);
-
+    drawCells(
+      boardCalculator,
+      coordinateCalculator,
+      gridColor,
+      gridLineWidth,
+      cellColorFunction,
+      cellImageFunction,
+      isCellUsedFunction
+    )(imageMap, offset, size)(context);
     // Layer 2: Tokens
-    this.drawTokens(context);
+    drawTokens(
+      boardCalculator,
+      coordinateCalculator,
+      drawTokenFunction,
+      isCellUsedFunction,
+      anToTokens
+    )(imageMap, offset, size)(context);
   }
 
   render() {
