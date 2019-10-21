@@ -74,7 +74,7 @@ const drawTokenFunction = (context0, center, size, an, token) => {
 
 class TTTBoardUI extends React.PureComponent {
   render() {
-    const { anToTokens, myKey, onClick } = this.props;
+    const { anToTokens, customKey, onClick } = this.props;
 
     return React.createElement(GameBoardUI, {
       anToTokens,
@@ -83,9 +83,9 @@ class TTTBoardUI extends React.PureComponent {
       drawTokenFunction,
 
       backgroundColor: "White",
+      customKey,
       gridLineWidth: 3,
       height: 300,
-      myKey,
       onClick,
       width: 300
     });
@@ -95,12 +95,12 @@ class TTTBoardUI extends React.PureComponent {
 TTTBoardUI.propTypes = {
   anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
 
-  myKey: PropTypes.string,
+  customKey: PropTypes.string,
   onClick: PropTypes.func
 };
 
 TTTBoardUI.defaultProps = {
-  myKey: "squareBoardCanvas",
+  customKey: "squareBoardCanvas",
   onClick: undefined
 };
 

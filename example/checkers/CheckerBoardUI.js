@@ -37,7 +37,7 @@ const cellColorFunction = an => {
 
 class CheckerBoardUI extends React.PureComponent {
   render() {
-    const { anToTokens, myKey } = this.props;
+    const { anToTokens, customKey } = this.props;
 
     return React.createElement(GameBoardUI, {
       anToTokens,
@@ -47,10 +47,10 @@ class CheckerBoardUI extends React.PureComponent {
 
       backgroundColor: "White",
       cellColorFunction,
+      customKey,
       gridColor: "Yellow",
       gridLineWidth: 3,
-      images,
-      myKey
+      images
     });
   }
 }
@@ -58,11 +58,11 @@ class CheckerBoardUI extends React.PureComponent {
 CheckerBoardUI.propTypes = {
   anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
 
-  myKey: PropTypes.string
+  customKey: PropTypes.string
 };
 
 CheckerBoardUI.defaultProps = {
-  myKey: "squareBoardCanvas"
+  customKey: "squareBoardCanvas"
 };
 
 export default CheckerBoardUI;

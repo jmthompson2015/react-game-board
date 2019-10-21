@@ -26,7 +26,7 @@ const anToTokens1 = {
 
 const element1 = React.createElement(WarChestBoardUI, {
   anToTokens: anToTokens1,
-  myKey: "hexPanel1"
+  customKey: "hexPanel1"
 });
 ReactDOM.render(element1, document.getElementById("board1"));
 
@@ -46,7 +46,7 @@ const anToTokens2 = {
 
 const element2 = React.createElement(WarChestBoardUI, {
   anToTokens: anToTokens2,
-  myKey: "hexPanel2",
+  customKey: "hexPanel2",
   isTwoPlayer: false
 });
 ReactDOM.render(element2, document.getElementById("board2"));

@@ -221,17 +221,17 @@ class GameBoardUI extends React.PureComponent {
       cellColorFunction,
       cellImageFunction,
       coordinateCalculator,
+      customKey,
       drawTokenFunction,
       gridColor,
       gridLineWidth,
       height,
       isCellUsedFunction,
-      myKey,
       width
     } = this.props;
     const { imageMap, offset, size } = this.state;
 
-    const canvas = document.getElementById(myKey);
+    const canvas = document.getElementById(customKey);
     const context = canvas.getContext("2d");
 
     // Layer 0: Board background color
@@ -258,11 +258,11 @@ class GameBoardUI extends React.PureComponent {
   }
 
   render() {
-    const { backgroundColor, height, myKey, width } = this.props;
+    const { backgroundColor, customKey, height, width } = this.props;
 
     return ReactDOMFactories.canvas({
-      id: myKey,
-      key: myKey,
+      id: customKey,
+      key: customKey,
       onClick: this.handleOnClick,
       style: { backgroundColor },
       width,
@@ -280,13 +280,13 @@ GameBoardUI.propTypes = {
   backgroundColor: PropTypes.string,
   cellColorFunction: PropTypes.func,
   cellImageFunction: PropTypes.func,
+  customKey: PropTypes.string,
   gridColor: PropTypes.string,
   gridLineWidth: PropTypes.number,
   height: PropTypes.number,
   images: PropTypes.arrayOf(PropTypes.string),
   isCellUsedFunction: PropTypes.func,
   isVerbose: PropTypes.bool,
-  myKey: PropTypes.string,
   onClick: PropTypes.func,
   width: PropTypes.number
 };
@@ -295,13 +295,13 @@ GameBoardUI.defaultProps = {
   backgroundColor: "Gainsboro",
   cellColorFunction: () => undefined,
   cellImageFunction: () => undefined,
+  customKey: "hexBoardCanvas",
   gridColor: "Black",
   gridLineWidth: 1,
   height: 480,
   images: [],
   isCellUsedFunction: () => true,
   isVerbose: false,
-  myKey: "hexBoardCanvas",
   onClick: () => {},
   width: 640
 };

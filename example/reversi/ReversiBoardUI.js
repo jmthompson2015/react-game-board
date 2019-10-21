@@ -33,7 +33,7 @@ const cellColorFunction = () => "Green";
 
 class ReversiBoardUI extends React.PureComponent {
   render() {
-    const { anToTokens, myKey } = this.props;
+    const { anToTokens, customKey } = this.props;
 
     return React.createElement(GameBoardUI, {
       anToTokens,
@@ -43,8 +43,8 @@ class ReversiBoardUI extends React.PureComponent {
 
       backgroundColor: "White",
       cellColorFunction,
-      gridLineWidth: 3,
-      myKey
+      customKey,
+      gridLineWidth: 3
     });
   }
 }
@@ -52,11 +52,11 @@ class ReversiBoardUI extends React.PureComponent {
 ReversiBoardUI.propTypes = {
   anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
 
-  myKey: PropTypes.string
+  customKey: PropTypes.string
 };
 
 ReversiBoardUI.defaultProps = {
-  myKey: "squareBoardCanvas"
+  customKey: "squareBoardCanvas"
 };
 
 export default ReversiBoardUI;

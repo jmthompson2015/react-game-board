@@ -35,7 +35,7 @@ const element1 = React.createElement(GameBoardUI, {
   coordinateCalculator: coordinateCalculator1,
   drawTokenFunction,
 
-  myKey: "hexPanel1",
+  customKey: "hexPanel1",
   onClick: myOnClick,
   height: 4 * size,
   width: 3 * size
@@ -59,9 +59,9 @@ const element2 = React.createElement(GameBoardUI, {
   drawTokenFunction,
 
   backgroundColor: "OliveDrab",
+  customKey: "hexPanel2",
   gridColor: "Maroon",
   gridLineWidth: 5,
-  myKey: "hexPanel2",
   onClick: myOnClick,
   height: 3 * size,
   width: 4 * size
@@ -84,7 +84,7 @@ const element3 = React.createElement(GameBoardUI, {
   coordinateCalculator: coordinateCalculator3,
   drawTokenFunction,
 
-  myKey: "hexPanel3",
+  customKey: "hexPanel3",
   onClick: myOnClick,
   height: 4 * size,
   width: 3 * size
@@ -108,9 +108,9 @@ const element4 = React.createElement(GameBoardUI, {
   drawTokenFunction,
 
   backgroundColor: "OliveDrab",
+  customKey: "hexPanel4",
   gridColor: "Maroon",
   gridLineWidth: 5,
-  myKey: "hexPanel4",
   onClick: myOnClick,
   height: 3 * size,
   width: 4 * size
