@@ -491,9 +491,9 @@
 
   HexBoardUtilities.cubeDirection = direction => cubeDirections[direction];
 
-  // HexBoardUtilities.cubeDistance = (a, b) =>
-  //   (Math.abs(a.x - b.x) + Math.abs(a.y - b.y) + Math.abs(a.z - b.z)) / 2;
-  //
+  HexBoardUtilities.cubeDistance = (a, b) =>
+    (Math.abs(a.x - b.x) + Math.abs(a.y - b.y) + Math.abs(a.z - b.z)) / 2;
+
   // HexBoardUtilities.cubeLinedraw = (a, b) => {
   //   const N = HexBoardUtilities.cubeDistance(a, b);
   //   const results = [];
@@ -550,12 +550,12 @@
   // };
   //
   // HexBoardUtilities.hexDirection = direction => axialDirections[direction];
-  //
-  // HexBoardUtilities.hexDistance = (a, b) => {
-  //   const ac = HexBoardUtilities.axialToCube(a);
-  //   const bc = HexBoardUtilities.axialToCube(b);
-  //   return HexBoardUtilities.cubeDistance(ac, bc);
-  // };
+
+  HexBoardUtilities.hexDistance = (a, b) => {
+    const ac = HexBoardUtilities.axialToCube(a);
+    const bc = HexBoardUtilities.axialToCube(b);
+    return HexBoardUtilities.cubeDistance(ac, bc);
+  };
 
   HexBoardUtilities.hexNeighbor = (hex, direction) => {
     const cube = HexBoardUtilities.axialToCube(hex);

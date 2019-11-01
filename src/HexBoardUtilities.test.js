@@ -118,19 +118,19 @@ QUnit.test("createPoint()", assert => {
 //   assert.equal(result.y, y - 1);
 //   assert.equal(result.z, z - 1);
 // });
-//
-// QUnit.skip("cubeDistance()", assert => {
-//   // Setup.
-//   const a = HBUtils.createCube({ x: 1, y: 2, z: -3 });
-//   const b = HBUtils.createCube({ x: 3, y: 2, z: -3 });
-//
-//   // Run.
-//   const result = HBUtils.cubeDistance(a, b);
-//
-//   // Verify.
-//   assert.ok(result);
-//   assert.equal(result, 1);
-// });
+
+QUnit.test("cubeDistance()", assert => {
+  // Setup.
+  const a = HBUtils.createCube({ x: 1, y: 2, z: -3 });
+  const b = HBUtils.createCube({ x: 3, y: 2, z: -3 });
+
+  // Run.
+  const result = HBUtils.cubeDistance(a, b);
+
+  // Verify.
+  assert.ok(result);
+  assert.equal(result, 1);
+});
 
 QUnit.test("cubeNeighbor() 0", assert => {
   // Setup.
@@ -330,6 +330,19 @@ QUnit.test("cubeToAxial()", assert => {
 //   assert.equal(result.q, q + 2);
 //   assert.equal(result.r, r - 1);
 // });
+
+QUnit.test("hexDistance()", assert => {
+  // Setup.
+  const a = HBUtils.createHex({ q: 1, r: 1 });
+  const b = HBUtils.createHex({ q: 1, r: 2 });
+
+  // Run.
+  const result = HBUtils.hexDistance(a, b);
+
+  // Verify.
+  assert.ok(result);
+  assert.equal(result, 1);
+});
 
 QUnit.test("hexNeighbor() 0", assert => {
   // Setup.
