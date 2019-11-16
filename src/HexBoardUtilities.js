@@ -6,13 +6,13 @@ const HexBoardUtilities = {};
 // const DEG_TO_RAD = Math.PI / 180.0;
 // const SQRT3 = Math.sqrt(3.0);
 
-HexBoardUtilities.createCube = ({ x = 0, y = 0, z = 0 } = {}) => Immutable({ x, y, z });
+HexBoardUtilities.createCube = ({ x = 0, y = 0, z = 0 } = {}) => ({ x, y, z });
 
-HexBoardUtilities.createDimension = ({ w = 0, h = 0 } = {}) => Immutable({ w, h });
+HexBoardUtilities.createDimension = ({ w = 0, h = 0 } = {}) => ({ w, h });
 
-HexBoardUtilities.createHex = ({ q = 0, r = 0 } = {}) => Immutable({ q, r });
+HexBoardUtilities.createHex = ({ q = 0, r = 0 } = {}) => ({ q, r });
 
-HexBoardUtilities.createPoint = ({ x = 0, y = 0 } = {}) => Immutable({ x, y });
+HexBoardUtilities.createPoint = ({ x = 0, y = 0 } = {}) => ({ x, y });
 
 // const axialDirections = [
 //   HexBoardUtilities.createHex({ q: +1, r: 0 }),

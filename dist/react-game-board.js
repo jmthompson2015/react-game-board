@@ -127,10 +127,10 @@
 
       const angle = DEG_TO_RAD * (deltaAngle * i - startAngle);
 
-      return Immutable({
+      return {
         x: center.x + factor * size * Math.cos(angle),
         y: center.y + factor * size * Math.sin(angle)
-      });
+      };
     }
 
     cellDimensions(size) {
@@ -151,7 +151,7 @@
         h = 2 * size;
       }
 
-      return Immutable({ w, h });
+      return { w, h };
     }
 
     cellToPixel(f, r, size, offset = { x: 0, y: 0 }) {
@@ -172,7 +172,7 @@
         y = size * (1.5 * r);
       }
 
-      return Immutable({ x: x + offset.x, y: y + offset.y });
+      return { x: x + offset.x, y: y + offset.y };
     }
 
     computeCorners(center, size) {
@@ -406,13 +406,13 @@
   // const DEG_TO_RAD = Math.PI / 180.0;
   // const SQRT3 = Math.sqrt(3.0);
 
-  HexBoardUtilities.createCube = ({ x = 0, y = 0, z = 0 } = {}) => Immutable({ x, y, z });
+  HexBoardUtilities.createCube = ({ x = 0, y = 0, z = 0 } = {}) => ({ x, y, z });
 
-  HexBoardUtilities.createDimension = ({ w = 0, h = 0 } = {}) => Immutable({ w, h });
+  HexBoardUtilities.createDimension = ({ w = 0, h = 0 } = {}) => ({ w, h });
 
-  HexBoardUtilities.createHex = ({ q = 0, r = 0 } = {}) => Immutable({ q, r });
+  HexBoardUtilities.createHex = ({ q = 0, r = 0 } = {}) => ({ q, r });
 
-  HexBoardUtilities.createPoint = ({ x = 0, y = 0 } = {}) => Immutable({ x, y });
+  HexBoardUtilities.createPoint = ({ x = 0, y = 0 } = {}) => ({ x, y });
 
   // const axialDirections = [
   //   HexBoardUtilities.createHex({ q: +1, r: 0 }),
@@ -575,10 +575,10 @@
 
   const computeCenter = boardCalculator => (size, offset, f, r) => {
     const dim = boardCalculator.cellDimensions(size);
-    const myOffset = Immutable({
+    const myOffset = {
       x: dim.w / 2.0 + offset.x,
       y: dim.h / 2.0 + offset.y
-    });
+    };
 
     return boardCalculator.cellToPixel(f, r, size, myOffset);
   };
@@ -669,7 +669,7 @@
 
       this.state = {
         imageMap: {},
-        offset: Immutable({ x: 0, y: 0 }),
+        offset: { x: 0, y: 0 },
         size: 1.0
       };
 
@@ -698,7 +698,7 @@
       const { cornerCount } = boardCalculator;
 
       const size0 = 1.0;
-      const offset0 = Immutable({ x: 0, y: 0 });
+      const offset0 = { x: 0, y: 0 };
       let minX = Number.POSITIVE_INFINITY;
       let minY = Number.POSITIVE_INFINITY;
       let maxX = Number.NEGATIVE_INFINITY;
@@ -732,10 +732,10 @@
         w: (width - size * width0) / 2.0,
         h: (height - size * height0) / 2.0
       };
-      const offset = Immutable({
+      const offset = {
         x: margin.w - size * minX,
         y: margin.h - size * minY
-      });
+      };
 
       this.setState({ size, offset });
     }
@@ -746,10 +746,10 @@
 
       const canvas = event.currentTarget;
       const clientRect = canvas.getBoundingClientRect();
-      const point = Immutable({
+      const point = {
         x: Math.round(event.clientX - clientRect.left),
         y: Math.round(event.clientY - clientRect.top)
-      });
+      };
 
       let answer = null;
 

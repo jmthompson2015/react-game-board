@@ -7,10 +7,10 @@ import HexBoardUtilities from "./HexBoardUtilities.js";
 
 const computeCenter = boardCalculator => (size, offset, f, r) => {
   const dim = boardCalculator.cellDimensions(size);
-  const myOffset = Immutable({
+  const myOffset = {
     x: dim.w / 2.0 + offset.x,
     y: dim.h / 2.0 + offset.y
-  });
+  };
 
   return boardCalculator.cellToPixel(f, r, size, myOffset);
 };
@@ -101,7 +101,7 @@ class GameBoardUI extends React.PureComponent {
 
     this.state = {
       imageMap: {},
-      offset: Immutable({ x: 0, y: 0 }),
+      offset: { x: 0, y: 0 },
       size: 1.0
     };
 
@@ -130,7 +130,7 @@ class GameBoardUI extends React.PureComponent {
     const { cornerCount } = boardCalculator;
 
     const size0 = 1.0;
-    const offset0 = Immutable({ x: 0, y: 0 });
+    const offset0 = { x: 0, y: 0 };
     let minX = Number.POSITIVE_INFINITY;
     let minY = Number.POSITIVE_INFINITY;
     let maxX = Number.NEGATIVE_INFINITY;
@@ -164,10 +164,10 @@ class GameBoardUI extends React.PureComponent {
       w: (width - size * width0) / 2.0,
       h: (height - size * height0) / 2.0
     };
-    const offset = Immutable({
+    const offset = {
       x: margin.w - size * minX,
       y: margin.h - size * minY
-    });
+    };
 
     this.setState({ size, offset });
   }
@@ -178,10 +178,10 @@ class GameBoardUI extends React.PureComponent {
 
     const canvas = event.currentTarget;
     const clientRect = canvas.getBoundingClientRect();
-    const point = Immutable({
+    const point = {
       x: Math.round(event.clientX - clientRect.left),
       y: Math.round(event.clientY - clientRect.top)
-    });
+    };
 
     let answer = null;
 

@@ -27,7 +27,7 @@ QUnit.test("BoardCalculator() square flat", assert => {
 QUnit.test("cellCorner() hex flat 0", assert => {
   // Setup.
   const calculator = new BoardCalculator(false);
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -42,7 +42,7 @@ QUnit.test("cellCorner() hex flat 0", assert => {
 QUnit.test("cellCorner() hex pointy 0", assert => {
   // Setup.
   const calculator = new BoardCalculator(false, false);
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -57,7 +57,7 @@ QUnit.test("cellCorner() hex pointy 0", assert => {
 QUnit.test("cellCorner() square flat 0", assert => {
   // Setup.
   const calculator = new BoardCalculator();
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -72,7 +72,7 @@ QUnit.test("cellCorner() square flat 0", assert => {
 QUnit.test("cellCorner() square pointy 0", assert => {
   // Setup.
   const calculator = new BoardCalculator(true, false);
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -211,7 +211,7 @@ QUnit.test("cellToPixel() square pointy", assert => {
 QUnit.test("computeCorners() hex flat", assert => {
   // Setup.
   const calculator = new BoardCalculator(false);
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -234,7 +234,7 @@ QUnit.test("computeCorners() hex flat", assert => {
 QUnit.test("computeCorners() hex pointy", assert => {
   // Setup.
   const calculator = new BoardCalculator(false, false);
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -257,7 +257,7 @@ QUnit.test("computeCorners() hex pointy", assert => {
 QUnit.test("computeCorners() square flat", assert => {
   // Setup.
   const calculator = new BoardCalculator();
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -280,7 +280,7 @@ QUnit.test("computeCorners() square flat", assert => {
 QUnit.test("computeCorners() square pointy", assert => {
   // Setup.
   const calculator = new BoardCalculator(true, false);
-  const center = Immutable({ x: 5, y: 5 });
+  const center = { x: 5, y: 5 };
   const size = 10;
 
   // Run.
@@ -302,67 +302,25 @@ QUnit.test("computeCorners() square pointy", assert => {
 
 QUnit.test("BoardCalculator.isPointInPolygon()", assert => {
   // Setup.
-  const point1 = Immutable({ x: 5, y: 5 });
-  const point2 = Immutable({ x: 15, y: 5 });
-  const point3 = Immutable({ x: 5, y: 15 });
-  const corners1 = [
-    { x: 0, y: 0 },
-    { x: 0, y: 10 },
-    { x: 10, y: 10 },
-    { x: 10, y: 0 }
-  ];
-  const corners2 = [
-    { x: 10, y: 0 },
-    { x: 10, y: 10 },
-    { x: 20, y: 10 },
-    { x: 20, y: 0 }
-  ];
-  const corners3 = [
-    { x: 0, y: 10 },
-    { x: 0, y: 20 },
-    { x: 10, y: 20 },
-    { x: 10, y: 10 }
-  ];
+  const point1 = { x: 5, y: 5 };
+  const point2 = { x: 15, y: 5 };
+  const point3 = { x: 5, y: 15 };
+  const corners1 = [{ x: 0, y: 0 }, { x: 0, y: 10 }, { x: 10, y: 10 }, { x: 10, y: 0 }];
+  const corners2 = [{ x: 10, y: 0 }, { x: 10, y: 10 }, { x: 20, y: 10 }, { x: 20, y: 0 }];
+  const corners3 = [{ x: 0, y: 10 }, { x: 0, y: 20 }, { x: 10, y: 20 }, { x: 10, y: 10 }];
 
   // Run / Verify.
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point1.x, point1.y, corners1),
-    true
-  );
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point2.x, point2.y, corners1),
-    false
-  );
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point3.x, point3.y, corners1),
-    false
-  );
+  assert.equal(BoardCalculator.isPointInPolygon(point1.x, point1.y, corners1), true);
+  assert.equal(BoardCalculator.isPointInPolygon(point2.x, point2.y, corners1), false);
+  assert.equal(BoardCalculator.isPointInPolygon(point3.x, point3.y, corners1), false);
 
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point1.x, point1.y, corners2),
-    false
-  );
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point2.x, point2.y, corners2),
-    true
-  );
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point3.x, point3.y, corners2),
-    false
-  );
+  assert.equal(BoardCalculator.isPointInPolygon(point1.x, point1.y, corners2), false);
+  assert.equal(BoardCalculator.isPointInPolygon(point2.x, point2.y, corners2), true);
+  assert.equal(BoardCalculator.isPointInPolygon(point3.x, point3.y, corners2), false);
 
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point1.x, point1.y, corners3),
-    false
-  );
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point2.x, point2.y, corners3),
-    false
-  );
-  assert.equal(
-    BoardCalculator.isPointInPolygon(point3.x, point3.y, corners3),
-    true
-  );
+  assert.equal(BoardCalculator.isPointInPolygon(point1.x, point1.y, corners3), false);
+  assert.equal(BoardCalculator.isPointInPolygon(point2.x, point2.y, corners3), false);
+  assert.equal(BoardCalculator.isPointInPolygon(point3.x, point3.y, corners3), true);
 });
 
 const BoardCalculatorTest = {};

@@ -121,10 +121,10 @@ class BoardCalculator {
 
     const angle = DEG_TO_RAD * (deltaAngle * i - startAngle);
 
-    return Immutable({
+    return {
       x: center.x + factor * size * Math.cos(angle),
       y: center.y + factor * size * Math.sin(angle)
-    });
+    };
   }
 
   cellDimensions(size) {
@@ -145,7 +145,7 @@ class BoardCalculator {
       h = 2 * size;
     }
 
-    return Immutable({ w, h });
+    return { w, h };
   }
 
   cellToPixel(f, r, size, offset = { x: 0, y: 0 }) {
@@ -166,7 +166,7 @@ class BoardCalculator {
       y = size * (1.5 * r);
     }
 
-    return Immutable({ x: x + offset.x, y: y + offset.y });
+    return { x: x + offset.x, y: y + offset.y };
   }
 
   computeCorners(center, size) {

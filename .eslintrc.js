@@ -4,7 +4,6 @@ module.exports = {
   },
   extends: ["airbnb", "prettier"],
   globals: {
-    Immutable: true,
     PropTypes: true,
     QUnit: true,
     R: true,
