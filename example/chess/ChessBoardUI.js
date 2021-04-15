@@ -5,9 +5,9 @@ import CoordinateCalculator from "../../src/CoordinateCalculator.js";
 const IS_SQUARE = true;
 const IS_FLAT = true;
 
-const isEven = value => value % 2 === 0;
-const isOdd = value => !isEven(value);
-const isUpperCase = value => value && value.toUpperCase() === value;
+const isEven = (value) => value % 2 === 0;
+const isOdd = (value) => !isEven(value);
+const isUpperCase = (value) => value && value.toUpperCase() === value;
 const bothEven = (a, b) => isEven(a) && isEven(b);
 const bothOdd = (a, b) => isOdd(a) && isOdd(b);
 
@@ -36,7 +36,7 @@ const drawTokenFunction = (context0, center, size, an, token) => {
   context.restore();
 };
 
-const cellColorFunction = an => {
+const cellColorFunction = (an) => {
   const file = coordinateCalculator.anToFile(an);
   const rank = coordinateCalculator.anToRank(an);
 
@@ -56,19 +56,19 @@ class ChessBoardUI extends React.PureComponent {
       backgroundColor: "White",
       cellColorFunction,
       customKey,
-      gridLineWidth: 3
+      gridLineWidth: 3,
     });
   }
 }
 
 ChessBoardUI.propTypes = {
-  anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  anToTokens: PropTypes.shape().isRequired,
 
-  customKey: PropTypes.string
+  customKey: PropTypes.string,
 };
 
 ChessBoardUI.defaultProps = {
-  customKey: "squareBoardCanvas"
+  customKey: "squareBoardCanvas",
 };
 
 export default ChessBoardUI;

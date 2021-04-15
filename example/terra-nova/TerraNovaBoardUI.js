@@ -25,7 +25,7 @@ const DENSE_FOREST = [
   "o8",
   "o9",
   "p8",
-  "p9"
+  "p9",
 ];
 const FOOTHILLS = [
   "a12",
@@ -48,7 +48,7 @@ const FOOTHILLS = [
   "d13",
   "d14",
   "e9",
-  "e14"
+  "e14",
 ];
 const LAKE = [
   "d11",
@@ -68,7 +68,7 @@ const LAKE = [
   "h5",
   "h6",
   "h7",
-  "i5"
+  "i5",
 ];
 const LIGHT_FOREST = [
   "b8",
@@ -91,7 +91,7 @@ const LIGHT_FOREST = [
   "g4",
   "h4",
   "i3",
-  "i4"
+  "i4",
 ];
 const MOUNTAIN = [
   "f11",
@@ -117,7 +117,7 @@ const MOUNTAIN = [
   "k10",
   "l7",
   "l9",
-  "l10"
+  "l10",
 ];
 const PASTURE = [
   "h3",
@@ -140,7 +140,7 @@ const PASTURE = [
   "m1",
   "m2",
   "n1",
-  "n2"
+  "n2",
 ];
 const PLAINS = [
   "h13",
@@ -163,7 +163,7 @@ const PLAINS = [
   "n9",
   "n10",
   "n11",
-  "o10"
+  "o10",
 ];
 const SWAMP = [
   "b16",
@@ -186,18 +186,10 @@ const SWAMP = [
   "h14",
   "i12",
   "i14",
-  "j14"
+  "j14",
 ];
 
-const USED = DENSE_FOREST.concat(
-  FOOTHILLS,
-  LAKE,
-  LIGHT_FOREST,
-  MOUNTAIN,
-  PASTURE,
-  PLAINS,
-  SWAMP
-);
+const USED = DENSE_FOREST.concat(FOOTHILLS, LAKE, LIGHT_FOREST, MOUNTAIN, PASTURE, PLAINS, SWAMP);
 
 const boardCalculator = new BoardCalculator(IS_SQUARE, IS_FLAT);
 const coordinateCalculator = new CoordinateCalculator(16, 17);
@@ -213,7 +205,7 @@ const drawTokenFunction = (context0, center, size, an, token) => {
   context.restore();
 };
 
-const cellColorFunction = an => {
+const cellColorFunction = (an) => {
   let answer;
 
   if (DENSE_FOREST.includes(an)) {
@@ -237,7 +229,7 @@ const cellColorFunction = an => {
   return answer;
 };
 
-const isCellUsedFunction = an => USED.includes(an);
+const isCellUsedFunction = (an) => USED.includes(an);
 
 class TerraNovaBoardUI extends React.PureComponent {
   render() {
@@ -251,13 +243,13 @@ class TerraNovaBoardUI extends React.PureComponent {
 
       cellColorFunction,
       gridColor: "White",
-      isCellUsedFunction
+      isCellUsedFunction,
     });
   }
 }
 
 TerraNovaBoardUI.propTypes = {
-  anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired
+  anToTokens: PropTypes.shape().isRequired,
 };
 
 export default TerraNovaBoardUI;

@@ -41,7 +41,7 @@ const UNUSED_4P = [
   "k4",
   "k5",
   "k6",
-  "k7"
+  "k7",
 ];
 const HEX_4P = ["a6", "a7", "b5", "b6", "b7", "j1", "j2", "j3", "k1", "k2"];
 const UNUSED_2P = HEX_4P.concat(UNUSED_4P);
@@ -98,15 +98,15 @@ const drawTokenFunction = (context0, center, size, an, tokens, imageMap) => {
   }
 };
 
-const cellColorFunction = an => (HEX_4P.includes(an) ? "hsl(40,30%,45%)" : "hsl(40,30%,60%)");
+const cellColorFunction = (an) => (HEX_4P.includes(an) ? "hsl(40,30%,45%)" : "hsl(40,30%,60%)");
 
-const cellImageFunction = isTwoPlayer => an => {
+const cellImageFunction = (isTwoPlayer) => (an) => {
   const controlPoints = isTwoPlayer ? CONTROL_POINTS_2P : CONTROL_POINTS_4P;
 
   return controlPoints.includes(an) ? "resource/control/NeutralControlMarker.png" : undefined;
 };
 
-const isCellUsedFunction = isTwoPlayer => an => {
+const isCellUsedFunction = (isTwoPlayer) => (an) => {
   const unused = isTwoPlayer ? UNUSED_2P : UNUSED_4P;
 
   return !unused.includes(an);
@@ -129,21 +129,21 @@ class WarChestBoardUI extends React.PureComponent {
       gridColor: "hsl(40,30%,75%)",
       gridLineWidth: 3,
       images,
-      isCellUsedFunction: isCellUsedFunction(isTwoPlayer)
+      isCellUsedFunction: isCellUsedFunction(isTwoPlayer),
     });
   }
 }
 
 WarChestBoardUI.propTypes = {
-  anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  anToTokens: PropTypes.shape().isRequired,
 
   customKey: PropTypes.string,
-  isTwoPlayer: PropTypes.bool
+  isTwoPlayer: PropTypes.bool,
 };
 
 WarChestBoardUI.defaultProps = {
   customKey: "hexBoardCanvas",
-  isTwoPlayer: true
+  isTwoPlayer: true,
 };
 
 export default WarChestBoardUI;

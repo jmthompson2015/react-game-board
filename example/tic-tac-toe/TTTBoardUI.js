@@ -87,21 +87,21 @@ class TTTBoardUI extends React.PureComponent {
       gridLineWidth: 3,
       height: 300,
       onClick,
-      width: 300
+      width: 300,
     });
   }
 }
 
 TTTBoardUI.propTypes = {
-  anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  anToTokens: PropTypes.shape().isRequired,
 
   customKey: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 TTTBoardUI.defaultProps = {
   customKey: "squareBoardCanvas",
-  onClick: undefined
+  onClick: undefined,
 };
 
 export default TTTBoardUI;

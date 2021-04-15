@@ -44,19 +44,19 @@ class ReversiBoardUI extends React.PureComponent {
       backgroundColor: "White",
       cellColorFunction,
       customKey,
-      gridLineWidth: 3
+      gridLineWidth: 3,
     });
   }
 }
 
 ReversiBoardUI.propTypes = {
-  anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  anToTokens: PropTypes.shape().isRequired,
 
-  customKey: PropTypes.string
+  customKey: PropTypes.string,
 };
 
 ReversiBoardUI.defaultProps = {
-  customKey: "squareBoardCanvas"
+  customKey: "squareBoardCanvas",
 };
 
 export default ReversiBoardUI;

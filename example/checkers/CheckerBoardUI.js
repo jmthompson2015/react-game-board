@@ -9,8 +9,8 @@ const images = R.map(R.prop("image"), Token.values());
 const IS_SQUARE = true;
 const IS_FLAT = true;
 
-const isEven = value => value % 2 === 0;
-const isOdd = value => !isEven(value);
+const isEven = (value) => value % 2 === 0;
+const isOdd = (value) => !isEven(value);
 const bothEven = (a, b) => isEven(a) && isEven(b);
 const bothOdd = (a, b) => isOdd(a) && isOdd(b);
 
@@ -28,7 +28,7 @@ const drawTokenFunction = (context, center, size, an, token, imageMap) => {
   }
 };
 
-const cellColorFunction = an => {
+const cellColorFunction = (an) => {
   const file = coordinateCalculator.anToFile(an);
   const rank = coordinateCalculator.anToRank(an);
 
@@ -50,19 +50,19 @@ class CheckerBoardUI extends React.PureComponent {
       customKey,
       gridColor: "Yellow",
       gridLineWidth: 3,
-      images
+      images,
     });
   }
 }
 
 CheckerBoardUI.propTypes = {
-  anToTokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  anToTokens: PropTypes.shape().isRequired,
 
-  customKey: PropTypes.string
+  customKey: PropTypes.string,
 };
 
 CheckerBoardUI.defaultProps = {
-  customKey: "squareBoardCanvas"
+  customKey: "squareBoardCanvas",
 };
 
 export default CheckerBoardUI;
